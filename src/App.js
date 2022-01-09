@@ -1,34 +1,22 @@
 import { useEffect, useState } from "react";
 
-function App() {
-  const [counter, setValue] = useState(0);
-  const [keyword, setKeyword] = useState("");
-  const onClick = () => setValue((prev) => prev + 1);
-  const onChange = (event) => setKeyword(event.target.value);
-
-  // state가 변할때마다 호출되지 않고 한번만 실행. []가 빈칸이기 때문
+function Hello() {
   useEffect(() => {
-    console.log("I run only onece");
+    console.log("hi"); // 컴포넌트 생성될 때
+    return () => {
+      console.log("bye"); // 컴포넌트 없어질 때, clean up
+    };
   }, []);
-  // keyword 가 변할때에만 실행됨
-  useEffect(() => {
-    console.log("I run when 'keyword' changes.");
-  }, [keyword]);
+  return <h1>Hello</h1>;
+}
 
-  useEffect(() => {
-    console.log("I run when 'counter' changes.");
-  }, [counter]);
-
+function App() {
+  const [showing, setShowing] = useState(false);
+  const onClick = () => setShowing((prev) => !prev);
   return (
     <div>
-      <input
-        value={keyword}
-        onChange={onChange}
-        type="text"
-        placeholder="Search here..."
-      ></input>
-      <h1>{counter}</h1>
-      <button onClick={onClick}>Click me</button>
+      {showing ? <Hello /> : null}
+      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
     </div>
   );
 }
